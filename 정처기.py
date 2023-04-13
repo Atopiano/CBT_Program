@@ -3,7 +3,7 @@ import random  # 랜덤한 문제를 선택하기 위해 random 모듈을 import
 import time
 
 # 데이터셋 로딩
-df = pd.read_csv('./정처기 실기 문제ver1.0.csv')
+df = pd.read_csv('./정처기 실기 문제ver1.5.csv')
 
 # 온점(`.`)을 기준으로 문자열을 나누고, 줄바꿈 문자를 추가하여 새로운 정제된문제 컬럼 만드는 함수
 def wrap_text(text):
