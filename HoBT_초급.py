@@ -3,7 +3,7 @@ import time
 import sys
 
 # 데이터셋 로딩
-df = pd.read_csv('HoBT_1.1.csv')
+df = pd.read_csv('HoJikBT_1.1.csv')
 
 # 문제대분류 기준으로 데이터프레임을 셔플하고, 상위 20개를 선택합니다.
 df = df.sample(frac=1).groupby('문제대분류').head(2)
@@ -11,18 +11,30 @@ df = df[0:20]
 df.reset_index(inplace=True, drop=True)
 df.문제대분류.value_counts()
 
-# 온점(`.`)을 기준으로 문자열을 나누고, 줄바꿈 문자를 추가하여 새로운 정제된문제 컬럼 만드는 함수
+# 문제 출력 정제 함수
 def wrap_text(text):
-    words = text.split()
+    # 줄바꿈 처리된 문자열을 저장할 리스트
     lines = []
+    # 현재 줄에 쌓인 단어들을 저장할 문자열
     current_line = ""
-    for word in words:
-        if len(current_line) + len(word) <= 50:
+    # 입력된 문자열을 공백을 기준으로 단어를 분리하여 처리
+    for word in text.split():
+        if word.endswith(".") or word.endswith("?"):
+            # 단어가 마침표(.)나 물음표(?)로 끝나면,
+            # 현재 줄에 단어를 추가한 후, 현재 줄을 처리하고 다음 줄로 이동
             current_line += " " + word
-        else:
-        
             lines.append(current_line.strip())
-            current_line = word
+            # 출력 결과에 공백이 없도록 다음 줄에 대해 개행 문자를 추가하지 않음
+            current_line = ""
+        else:
+            # 현재 줄에 단어를 추가할 수 있는 경우 추가
+            if len(current_line) + len(word) + 1 <= 50:
+                current_line += " " + word
+            # 현재 줄에 더 이상 단어를 추가할 수 없는 경우 다음 줄로 이동
+            else:
+                lines.append(current_line.strip())
+                current_line = word
+    # 남은 단어를 처리하여 출력 결과 생성
     if current_line:
         lines.append(current_line.strip())
     return "\n".join(lines)
@@ -36,7 +48,10 @@ score = 0  # 맞춘 문제 수를 기록하는 변수입니다.
 questions_count = 0  # 출제된 문제 수를 기록하는 변수입니다.
 
 # 시험 규칙을 출력합니다.
+print("-" * 80)
 print("정처기 실기 시험을 시작합니다.")
+print("초급 버전은 ncs모듈별로 문제가 고르게 출제되어\n여러번 풀경우 같은 문제가 많이 보일 수 있습니다.\n실력을 향상시켜 중급버전도 풀어보세요!")
+print("-" * 80)
 print("총 문항 수는 20문제입니다. 12문제 이상 맞추면 합격입니다.")
 print("불합격하셨을경우 문제를 다시 푸는 것을 추천드립니다.")
 print("\n사용 방법\n")
@@ -112,10 +127,14 @@ while True:
 
     print("\n모든 문항을 풀었습니다. 시험 종료!")
     print(f"맞춘 문항 수는 {score}개, 틀린 문항 수는 {questions_count - score}개입니다.\n")
-    if score >= 12:
+    if score >= 14:
         print("*" * 80)
         print(f"축하합니다! 합격입니다!\n프로그램을 다시 시작해서 새로운 문제를 풀어보세요!")
         print("*" * 80)
+    elif 12 <= score <14:
+        print("*" * 80)
+        print(f"축하합니다! 합격입니다!\n점수를 70점까지 올려보세요!")
+        print("*" * 80)    
     else:
         print("*" * 80)
         print(f"불합격입니다! 문제를 다시 풀어보세요!")
