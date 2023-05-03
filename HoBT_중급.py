@@ -3,7 +3,7 @@ import time
 import sys
 
 # 데이터셋 로딩
-df = pd.read_csv('HoJikBT_1.1.csv')
+df = pd.read_csv('HoBT_1.5.1.csv')
 
 # 데이터프레임을 셔플하고, 상위 20개를 선택합니다.
 df = df.sample(n=20)
@@ -35,7 +35,7 @@ def wrap_text(text):
     # 남은 단어를 처리하여 출력 결과 생성
     if current_line:
         lines.append(current_line.strip())
-    return "\n".join(lines)
+    return "\n".join(lines) 
 
 df['정제된문제'] = df['문제'].apply(wrap_text)
 df['유사답안'].fillna('없음', inplace=True)
@@ -111,7 +111,7 @@ while True:
                     num_questions -= 1
                     print(f"\n축하드립니다! 현재 맞춘문제수는 {score}개입니다. 다음 문제로 넘어갑니다.")
                     break
-                elif judge == "2":
+                elif judge == "2":  
                     questions_count += 1
                     num_questions -= 1
                     print(f"\n유감입니다! 현재 맞춘문제수는 {score}개입니다. 다음 문제로 넘어갑니다.")

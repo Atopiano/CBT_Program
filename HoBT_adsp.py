@@ -3,13 +3,11 @@ import time
 import sys
 
 # 데이터셋 로딩
-df = pd.read_csv('HoBT_1.5.1.csv')
+df = pd.read_csv('HoBT_adsp_1.0.csv')
 
-# 문제대분류 기준으로 데이터프레임을 셔플하고, 상위 20개를 선택합니다.
-df = df.sample(frac=1).groupby('문제대분류').head(2)
-df = df[0:20]
+# 데이터프레임을 셔플하고, 상위 20개를 선택합니다.
+df = df.sample(n=20)
 df.reset_index(inplace=True, drop=True)
-df.문제대분류.value_counts()
 
 # 문제 출력 정제 함수
 def wrap_text(text):
@@ -49,8 +47,7 @@ questions_count = 0  # 출제된 문제 수를 기록하는 변수입니다.
 
 # 시험 규칙을 출력합니다.
 print("-" * 80)
-print("정처기 실기 시험을 시작합니다.")
-print("초급 버전은 ncs모듈별로 문제가 고르게 출제되어\n여러번 풀경우 같은 문제가 많이 보일 수 있습니다.\n실력을 향상시켜 중급버전도 풀어보세요!")
+print("adsp 시험을 시작합니다.")
 print("-" * 80)
 print("총 문항 수는 20문제입니다. 12문제 이상 맞추면 합격입니다.")
 print("불합격하셨을경우 문제를 다시 푸는 것을 추천드립니다.")
